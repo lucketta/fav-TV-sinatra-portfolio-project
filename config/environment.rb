@@ -6,4 +6,5 @@ ActiveRecord::Base.establish_connection(
   :database => "db/development.sqlite"
 )
 
+require 'sinatra/flash'
 require_all './app'
