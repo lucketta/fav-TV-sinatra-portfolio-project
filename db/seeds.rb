@@ -7,4 +7,8 @@ reasons = Show.create(name: "13 Reasons Why", network: "Netflix", airdate: "N/A"
 
 scandal.user = test
 ms.user = test
-reasons = tonya
+reasons.user = tonya
+
+scandal.save
+ms.save
+reasons.save
