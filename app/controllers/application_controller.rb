@@ -58,6 +58,21 @@ class ApplicationController < Sinatra::Base
     end
   end
 
+  post '/shows' do
+    if logged_in?
+      if !params[:name].empty? && !params[:network].empty? && !params[:airdate].empty? && !params[:link].empty?
+        show = Show.create(params)
+        show.user_id = session[:id]
+        show.save
+        redirect "/shows/#{show.id}"
+      else
+        flash[:failed_new_show] = "Please fill out all fields."
+        redirect '/shows/new'
+      end
+    end
+  end
+
+
   get '/shows/:show_id' do
     if logged_in?
       @show = Show.find(params[:show_id])
@@ -99,19 +114,6 @@ class ApplicationController < Sinatra::Base
     end
   end
 
-  post '/shows' do
-    if logged_in?
-      if !params[:name].empty? && !params[:network].empty? && !params[:airdate].empty? && !params[:link].empty?
-        show = Show.create(params)
-        show.user_id = session[:id]
-        show.save
-        redirect "/users/#{session[:id]}"
-      else
-        flash[:failed_new_show] = "Please fill out all fields."
-        redirect '/shows/new'
-      end
-    end
-  end
 
   delete '/shows/:show_id/delete' do
     if logged_in?

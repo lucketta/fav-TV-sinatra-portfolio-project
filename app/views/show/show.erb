@@ -7,12 +7,19 @@
 <h3><a href="http://<%= @show.link %>" target="_blank">Watch Here</a></h3>
 
 <br>
-<form action="/shows/new" method="get">
-  <input type="submit" name="" value="Add A Show">
-</form>
+
 <form action="/shows/<%= @show.id %>/edit" method="get">
   <input type="submit" name="" value="Edit Show">
 </form>
+
+<form action="/users/<%= @show.user_id %>" method="get">
+  <input type="submit" name="" value="Back to Profile">
+</form>
+
+<form action="/shows/new" method="get">
+  <input type="submit" name="" value="Add A Show">
+</form>
+
 <form action="/shows/<%= @show.id %>/delete" method="post">
   <input type="hidden" name="_method" value="delete" id="hidden">
   <input type="submit" name="" value="Delete Show">
