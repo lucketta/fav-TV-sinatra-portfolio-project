@@ -1,0 +1,17 @@
+<h1>Add a New TV Show</h1>
+
+<% if flash[:failed_new_show] %>
+<label style="color:red;" ><%= flash[:failed_new_show]  %></label>
+<% end %>
+
+<form action="/shows" method="post">
+  <label>Show Name: <input type="text" name="name"></label>
+  <br>
+  <label>Show Network: <input type="text" name="network"></label>
+  <br>
+  <label>Show Airdate: <input type="text" name="airdate"></label>
+  <br>
+  <label>Show Link: <input type="text" name="link"></label>
+  <br>
+  <input type="submit" name="" value="submit">
+</form>
