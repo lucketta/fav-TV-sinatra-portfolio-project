@@ -5,7 +5,7 @@ Welcome to My Favorite TV Webapp. This app allows you to keep a list of your fav
 
 ## Download Source Code
 
-Visit: $ https://github.com/lucketta/fav-TV-sinatra-portfolio-project
+Visit: https://github.com/lucketta/fav-TV-sinatra-portfolio-project
 
 and git clone the repository.
 
