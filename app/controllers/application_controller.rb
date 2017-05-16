@@ -8,11 +8,13 @@ class ApplicationController < Sinatra::Base
 
   get '/' do
     if !logged_in?
-      erb :index
+      erb :'user/login'
     else
-      redirect "/users/#{session[:id]}"
+      redirect "/users/#{current_user.id}"
     end
   end
+
+  # UsersController
 
   post '/login' do
     @user = User.find_by(username: params[:username])
@@ -21,7 +23,7 @@ class ApplicationController < Sinatra::Base
       session[:id] = @user.id
       redirect "/users/#{@user.id}"
     else
-      flash[:failed_login] = "Invalid username or password. Try again."
+      flash[:error] = "Invalid username or password. Try again."
       redirect '/'
     end
   end
@@ -31,25 +33,31 @@ class ApplicationController < Sinatra::Base
   end
 
   post '/signup' do
-    if !params[:user][:username].empty? && !params[:user][:email].empty? && !params[:user][:password].empty?
-      user = User.create(params[:user])
-      session[:id] = user.id
-      redirect "/users/#{user.id}"
+    if !User.find_by(username: params[:username])
+
+      if !params[:user][:username].empty? && !params[:user][:email].empty? && !params[:user][:password].empty?
+        user = User.create(params[:user])
+        session[:id] = user.id
+        redirect "/users/#{user.id}"
+      else
+        flash[:error] = "Please fill out all input fields."
+        redirect '/signup'
+      end
     else
-      flash[:failed_signup] = "Please fill out all input fields."
+      flash[:error] = "Please fill out all input fields."
       redirect '/signup'
     end
   end
 
   get '/users/:user_id' do
     if logged_in?
-      @user = User.find(params[:user_id])
       erb :"user/profile"
     else
       redirect '/'
     end
   end
 
+  # Show Controller
   get '/shows/new' do
     if logged_in?
       erb :"show/new"
@@ -61,9 +69,7 @@ class ApplicationController < Sinatra::Base
   post '/shows' do
     if logged_in?
       if !params[:name].empty? && !params[:network].empty? && !params[:airdate].empty? && !params[:link].empty?
-        show = Show.create(params)
-        show.user_id = session[:id]
-        show.save
+        show = current_user.shows.create(params)
         redirect "/shows/#{show.id}"
       else
         flash[:failed_new_show] = "Please fill out all fields."
@@ -72,14 +78,10 @@ class ApplicationController < Sinatra::Base
     end
   end
 
-
   get '/shows/:show_id' do
-    if logged_in?
-      @show = Show.find(params[:show_id])
-      erb :"show/show"
-    else
-      redirect '/'
-    end
+    authenticate_user
+    @show = Show.find(params[:show_id])
+    erb :"show/show"
   end
 
   patch '/shows/:show_id' do
@@ -114,19 +116,15 @@ class ApplicationController < Sinatra::Base
     end
   end
 
-
   delete '/shows/:show_id/delete' do
-    if logged_in?
-      show = Show.find(params[:show_id])
-      if show.user_id == session[:id]
-        user = show.user
-        show.destroy
-        redirect "/users/#{user.id}"
-      else
-        redirect ""
-      end
+    authenticate_user
+    show = Show.find(params[:show_id])
+    if show.user_id == session[:id]
+      user = show.user
+      show.destroy
+      redirect "/users/#{user.id}"
     else
-      redirect '/'
+      redirect "/"
     end
   end
 
@@ -135,12 +133,18 @@ class ApplicationController < Sinatra::Base
     redirect '/'
   end
 
-end #end ApplicationController
+  helpers do
+    def logged_in?
+      !!current_user
+    end
 
-def logged_in?
-  if session[:id]
-    true
-  else
-    false
+    def current_user
+      @current_user ||= User.find_by(id: session[:id]) if session[:id]
+    end
+
+    def authenticate_user
+      # if a user is not logged in then redirect them to '/login'
+    end
   end
+
 end

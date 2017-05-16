@@ -1,9 +1,4 @@
-<h1>My Favorite TV</h1>
-
 <h3>Login</h3>
-<% if flash[:failed_login] %>
-<label style="color:red;" ><%= flash[:failed_login]  %></label>
-<% end %>
 <form action="/login" method="post">
   <label>Username: <input type="text" name="username"></label>
   <br>
