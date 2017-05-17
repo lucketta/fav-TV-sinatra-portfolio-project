@@ -1,0 +1,14 @@
+<% if current_user.shows.empty? %>
+  <h3>You have no shows to watch</h3>
+<% else %>
+  <h3>What would you like to watch today?</h3>
+  <% current_user.shows.each do |show| %>
+   <a href="/shows/<%= show.id %>">  <%= show.name  %></a>
+   <br><br>
+  <% end %>
+  <% end %>
+
+<br>
+<form action="/shows/new" method="get">
+  <input type="submit" name="" value="Add Show">
+</form>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+
+    <div class="navbar">
+      <% if logged_in? %>
+        <a href="/">Home     | </a>
+        <a href="/logout">Logout   | </a>
+        <span><%= current_user.username %>   |</span>
+      <% else %>
+        <a href="/signup">Signup</a>
+      <% end %>
+
+    </div>
+
+    <% if flash[:error] %>
+      <div class="notification"
+        <h3 style="color:red;" ><%= flash[:error]  %></h3>
+      </div>
+    <% end %>
+
+    <h1>My Favorite TV</h1>
+
+    <%= yield %>
+  </body>
+</html>
