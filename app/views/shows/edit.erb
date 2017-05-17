@@ -1,0 +1,14 @@
+<h1>Edit Show</h1>
+
+<form action="/shows/<%= @show.id %>" method="post">
+  <input type="hidden" name="_method" value="patch" id="hidden">
+  <label>Edit Name: <input type="text" name="name" value="<%= @show.name %>"></label>
+  <br>
+  <label>Edit Network: <input type="text" name="network" value="<%= @show.network %>"></label>
+  <br>
+  <label>Edit Airdate: <input type="text" name="airdate" value="<%= @show.airdate %>"></label>
+  <br>
+  <label>Edit Link: <input type="text" name="link" value="<%= @show.link %>"></label>
+  <br>
+  <input type="submit" name="" value="Edit">
+</form>

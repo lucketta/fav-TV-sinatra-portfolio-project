@@ -1,14 +1,9 @@
-<h1>Hello, <%= current_user.username %></h1>
-<a href="/logout">Logout</a>
-
-<br><br><br><br>
-
-<% if current_user.shows.size == 0 %>
-  <h3>Add A Show</h3>
+<% if current_user.shows.empty? %>
+  <h3>You have no shows to watch</h3>
 <% else %>
   <h3>What would you like to watch today?</h3>
   <% current_user.shows.each do |show| %>
-   <a href="/shows/<%= show.id %>" target="_blank">  <%= show.name  %></a>
+   <a href="/shows/<%= show.id %>">  <%= show.name  %></a>
    <br><br>
   <% end %>
   <% end %>

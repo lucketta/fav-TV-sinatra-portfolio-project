@@ -8,11 +8,11 @@
 
     <div class="navbar">
       <% if logged_in? %>
-        <a href="/">Home</a>
-        <span><%= current_user.username %></span>
+        <a href="/">Home     | </a>
+        <a href="/logout">Logout   | </a>
+        <span><%= current_user.username %>   |</span>
       <% else %>
         <a href="/signup">Signup</a>
-        <a href="/login">Login</a>
       <% end %>
 
     </div>

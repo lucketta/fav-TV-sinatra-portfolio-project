@@ -1,9 +1,4 @@
-<h1>Sign-Up: </h1>
-
-<% if flash[:failed_signup] %>
-<label style="color:red;" ><%= flash[:failed_signup]  %></label>
-<% end %>
-
+<h3>Sign-Up: </h3>
 
 <form action="/signup" method="post">
   <label>Username: <input type="text" name="user[username]"></label>
